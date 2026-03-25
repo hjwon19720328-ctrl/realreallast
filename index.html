@@ -5,94 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>시안송의 생일기념 스토리!</title>
     <style>
-        /* 전체 기본 설정 */
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Pretendard', 'Malgun Gothic', sans-serif;
-            text-align: center;
-            overflow-x: hidden;
-        }
-
-        /* 첫 번째 화면 (입장 화면) */
-        #intro-screen {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #fdf5e6;
-            transition: opacity 0.5s ease;
-        }
-
-        #intro-screen h1 {
-            font-size: 2.5rem;
-            color: #333;
-            margin-bottom: 30px;
-        }
-
-        .start-btn {
-            padding: 15px 40px;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: white;
-            background-color: #ff6b6b;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s, background-color 0.2s;
-        }
-
-        .start-btn:hover {
-            background-color: #ff5252;
-            transform: scale(1.05);
-        }
-
-        /* 두 번째 화면 (파티 화면 - 처음에는 숨김) */
-        #party-screen {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            padding: 50px 20px;
-            /* 파티 느낌의 화려한 배경 (그라데이션) */
-            background: linear-gradient(135deg, #ffeaa7, #fab1a0, #fd79a8);
-            color: #2d3436;
-        }
-
-        #party-screen h1 {
-            font-size: 3rem;
-            margin-bottom: 40px;
-            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
-        }
-
-        /* 이미지 들어갈 자리 */
-        .character-image-placeholder {
-            width: 300px;
-            height: 300px;
-            background-color: rgba(255, 255, 255, 0.8);
-            border: 5px dashed #ff7675;
-            border-radius: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 30px;
-            font-size: 1.2rem;
-            color: #636e72;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        /* 캐릭터 설명 들어갈 자리 */
-        .character-description {
-            max-width: 600px;
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 30px;
-            border-radius: 15px;
-            font-size: 1.2rem;
-            line-height: 1.6;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
+        /* (이전과 동일한 CSS 스타일) */
+        body { margin: 0; padding: 0; font-family: 'Pretendard', 'Malgun Gothic', sans-serif; text-align: center; overflow-x: hidden; }
+        #intro-screen { display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; background-color: #fdf5e6; transition: opacity 0.5s ease; }
+        #intro-screen h1 { font-size: 2.5rem; color: #333; margin-bottom: 30px; }
+        .start-btn { padding: 15px 40px; font-size: 1.5rem; font-weight: bold; color: white; background-color: #ff6b6b; border: none; border-radius: 50px; cursor: pointer; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: transform 0.2s, background-color 0.2s; }
+        .start-btn:hover { background-color: #ff5252; transform: scale(1.05); }
+        
+        #party-screen { display: none; flex-direction: column; align-items: center; min-height: 100vh; padding: 50px 20px; background: linear-gradient(135deg, #ffeaa7, #fab1a0, #fd79a8); color: #2d3436; }
+        #party-screen h1 { font-size: 3rem; margin-bottom: 40px; text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5); }
+        .character-image-placeholder { width: 300px; height: 300px; background-color: rgba(255, 255, 255, 0.8); border: 5px dashed #ff7675; border-radius: 20px; display: flex; justify-content: center; align-items: center; margin-bottom: 30px; font-size: 1.2rem; color: #636e72; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); }
+        
+        /* 캐릭터 설명창 디자인 수정 */
+        .character-description { max-width: 600px; background-color: rgba(255, 255, 255, 0.95); padding: 30px 40px; border-radius: 15px; font-size: 1.1rem; line-height: 1.8; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); text-align: left; }
+        .character-description ul { padding-left: 20px; list-style-type: none; margin: 0; }
+        .character-description li { margin-bottom: 15px; }
+        .character-description li::before { content: "✨ "; }
+        .favorite-link { color: #ff6b6b; text-decoration: none; font-weight: bold; border-bottom: 2px solid transparent; transition: border-color 0.2s; }
+        .favorite-link:hover { border-bottom: 2px solid #ff6b6b; }
+        .sub-list { margin-top: 10px; list-style-type: disc !important; padding-left: 25px; color: #555; }
+        .sub-list li::before { content: ""; }
     </style>
 </head>
 <body>
@@ -110,13 +42,23 @@
         </div>
 
         <div class="character-description" id="desc-area">
-            (여기에 캐릭터 설명이 들어갑니다. 나중에 알려주실 내용을 이곳에 채워 넣으면 됩니다!)
+            <ul>
+                <li><strong>성격:</strong> ISTP (극도의 귀차니즘 소유자 🦥)</li>
+                <li><strong>최애:</strong> <a href="https://youtube.com/@tooboe_john?si=qHgjDMYW6LYUJ8o8" target="_blank" class="favorite-link">john/tooboe</a> (이름을 클릭하면 유튜브로 이동!)</li>
+                <li><strong>최근 활동:</strong> 캐릭터 챗 앱 '크랙(Crack)'의 뉴비 제작자 💻</li>
+                <li><strong>숨겨진 이면:</strong>
+                    <ul class="sub-list">
+                        <li>사람들 앞이나 직급 높은 사람과 단둘이 있을 때 조건적 공황을 겪음</li>
+                        <li>종종 찾아오는 자기혐오와 싸우는 중</li>
+                        <li>힘든 감정이나 속마음을 꾹꾹 눌러 담다가 임계점을 넘으면 한 번에 터트리는 타입 🌋</li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </div>
 
     <script>
         function startParty() {
-            // 입장 화면을 숨기고 파티 화면을 보여줍니다
             document.getElementById('intro-screen').style.display = 'none';
             document.getElementById('party-screen').style.display = 'flex';
         }
