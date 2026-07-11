@@ -80,15 +80,24 @@
         .story-line.active { opacity: 1; filter: blur(0px); transform: scale(1); }
         .story-line.fade-out { opacity: 0; filter: blur(8px); transform: scale(1.05); }
         
-        /* 스킵 버튼 수정: 위치 상승, 터치 영역 확대 및 가시성 개선 */
+        /* 건너뛰기 버튼 위치 및 디자인 수정 (우측 상단) */
         .skip-btn { 
-            position: absolute; bottom: 75px; right: 25px; 
-            background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(0,0,0,0.1); 
-            border-radius: 20px; color: #555; font-size: 1rem; font-weight: 700;
-            cursor: pointer; transition: 0.3s; z-index: 105; letter-spacing: 1px; 
-            padding: 12px 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            position: absolute; 
+            top: 40px; 
+            right: 40px; 
+            background: rgba(255, 255, 255, 0.5); 
+            border: 1px solid rgba(0,0,0,0.1); 
+            border-radius: 20px; 
+            color: #666; 
+            font-size: 0.95rem; 
+            cursor: pointer; 
+            transition: 0.3s; 
+            z-index: 105; 
+            letter-spacing: 1px; 
+            padding: 8px 18px; 
+            font-family: 'Noto Sans KR', sans-serif;
         }
-        .skip-btn:hover { background: #fff; color: var(--primary-red); box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+        .skip-btn:hover { background: rgba(255, 255, 255, 0.9); color: #222; }
         
         .nav-bar {
             position: fixed; top: 0; left: 0; width: 100%; padding: 15px 25px;
@@ -97,7 +106,23 @@
             opacity: 0; transition: opacity 1s ease; pointer-events: none;
         }
         .nav-bar.show { opacity: 1; pointer-events: auto; }
-        .nav-link { font-family: 'Nanum Myeongjo', serif; font-weight: 700; font-size: 1rem; color: #555; cursor: pointer; text-decoration: none; transition: color 0.3s; }
+        
+        /* 메뉴 버튼 드래그 방지 코드 추가 */
+        .nav-link { 
+            font-family: 'Nanum Myeongjo', serif; 
+            font-weight: 700; 
+            font-size: 1rem; 
+            color: #555; 
+            cursor: pointer; 
+            text-decoration: none; 
+            transition: color 0.3s; 
+            
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
         .nav-link:hover { color: var(--primary-red); }
 
         #main-wrapper { opacity: 0; transition: opacity 1.5s ease; display: none; width: 100%; }
@@ -128,6 +153,10 @@
         .story-text { font-family: 'Gowun Batang', serif; font-size: 1.15rem; line-height: 2.1; color: #222; word-break: keep-all; font-weight: 700; text-align: justify; text-justify: inter-character; }
         .story-text p { margin-bottom: 20px; }
         .story-text p:last-child { margin-bottom: 0; }
+        
+        /* 스토리 내 이름 색상 적용용 클래스 */
+        .text-blue { color: var(--primary-blue); font-weight: 800; }
+        .text-red { color: var(--primary-red); font-weight: 800; }
 
         .profile-container { display: flex; flex-direction: column; gap: 40px; max-width: 900px; width: 100%; align-items: center; }
         
@@ -149,11 +178,11 @@
         .char-tags span { background: #f2f5f9; padding: 5px 14px; border-radius: 20px; font-size: 0.9rem; color: #444; font-weight: 500; border: 1px solid rgba(0,0,0,0.04); }
         .char-desc { font-family: 'Noto Sans KR', sans-serif; font-size: 1.05rem; line-height: 1.8; color: #222; word-break: keep-all;}
 
-        .cmd-container { display: flex; flex-direction: column; gap: 30px; max-width: 900px; width: 100%; }
-        .cmd-col { width: 100%; background: rgba(255, 255, 255, 0.72); padding: 40px; border-radius: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.04); border: 1px solid rgba(255,255,255,0.9);}
+        .cmd-container { display: flex; gap: 30px; max-width: 900px; width: 100%; justify-content: center; }
+        .cmd-col { flex: 1; background: rgba(255, 255, 255, 0.72); padding: 35px; border-radius: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.04); border: 1px solid rgba(255,255,255,0.9);}
         .cmd-header { font-family: 'Nanum Myeongjo', serif; font-size: 1.6rem; color: #222; font-weight: 800; margin-bottom: 20px; border-bottom: 2px solid rgba(0,0,0,0.08); padding-bottom: 12px; }
-        .cmd-list { list-style: none; margin-bottom: 30px; }
-        .cmd-list:last-child { margin-bottom: 0; }
+        .cmd-header.mt-30 { margin-top: 30px; }
+        .cmd-list { list-style: none; }
         .cmd-item { padding: 18px 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
         .cmd-item:last-child { border-bottom: none; padding-bottom: 0; }
         .cmd-code { display: inline-block; font-family: monospace; font-size: 1.05rem; color: #111; font-weight: 700; margin-bottom: 8px; background: #eef1f4; padding: 4px 10px; border-radius: 6px;}
@@ -186,20 +215,20 @@
             .profile-info { width: 100%; padding: 25px 20px; }
             .char-name { font-size: 1.9rem; margin-bottom: 10px; }
             
+            .cmd-container { flex-direction: column; gap: 20px; }
             .cmd-col { padding: 25px 20px; }
             .cmd-header { font-size: 1.4rem; }
             
             .section { padding-top: 80px; }
             .section-title { font-size: 1.6rem; margin-bottom: 35px; }
             
-            /* 모바일 환경 스킵 버튼 조정 */
-            .skip-btn { bottom: 65px; right: 15px; padding: 10px 20px; font-size: 0.95rem; }
+            .skip-btn { top: 20px; right: 20px; font-size: 0.85rem; padding: 6px 14px; }
         }
     </style>
 </head>
 <body>
 
-    <audio id="bgm" src="桜의降る夜에.mp3" loop preload="auto"></audio>
+    <audio id="bgm" src="bgm.mp3" loop preload="auto"></audio>
 
     <div class="petals-container" id="petals-container"></div>
 
@@ -238,8 +267,8 @@
             <h2 class="section-title reveal">반짝이는 여정</h2>
             <div class="story-book reveal" style="transition-delay: 0.1s;">
                 <div class="story-text">
-                    <p>비록 부모님이 남겨두신 소중한 보금자리 때문에 법적인 복지 지원은 잠시 멈춰 서 있지만, 7살 쌍둥이 남매 <span style="color: var(--primary-blue); font-weight: 800;">시안</span>과 <span style="color: var(--primary-red); font-weight: 800;">송</span>은 결코 희망을 잃지 않습니다. 매일 작은 손으로 물통을 맞잡고 맑은 물이 솟아나는 약수터로 향하는 길은, 두 아이에게 세상에서 가장 특별하고 용감한 산책길이 됩니다.</p>
-                    <p>눈이 보이지 않는 누나 <span style="color: var(--primary-blue); font-weight: 800;">시안</span>은 반짝이는 천재성으로 아동급식카드를 알뜰하게 계산하며 든든하게 동생의 끼니를 챙겨주고, 소리가 들리지 않는 동생 <span style="color: var(--primary-red); font-weight: 800;">송</span>은 누나의 심장 박동과 따스한 체온을 나침반 삼아 씩씩하게 발걸음을 옮깁니다. 어둠과 고요조차 이들의 깊은 유대를 가로막을 수 없기에, 7살의 남매는 서로의 완벽한 빛이자 소리가 되어 오늘도 행복한 내일을 그려나갑니다.</p>
+                    <p>비록 부모님이 남겨두신 소중한 보금자리 때문에 법적인 복지 지원은 잠시 멈춰 서 있지만, 7살 쌍둥이 남매 <span class="text-blue">시안</span>과 <span class="text-red">송</span>은 결코 희망을 잃지 않습니다. 매일 작은 손으로 물통을 맞잡고 맑은 물이 솟아나는 약수터로 향하는 길은, 두 아이에게 세상에서 가장 특별하고 용감한 산책길이 됩니다.</p>
+                    <p>눈이 보이지 않는 누나 <span class="text-blue">시안</span>은 반짝이는 천재성으로 아동급식카드를 알뜰하게 계산하며 든든하게 동생의 끼니를 챙겨주고, 소리가 들리지 않는 동생 <span class="text-red">송</span>은 누나의 심장 박동과 따스한 체온을 나침반 삼아 씩씩하게 발걸음을 옮깁니다. 어둠과 고요조차 이들의 깊은 유대를 가로막을 수 없기에, 7살의 남매는 서로의 완벽한 빛이자 소리가 되어 오늘도 행복한 내일을 그려나갑니다.</p>
                 </div>
             </div>
         </section>
@@ -288,8 +317,8 @@
         <section class="section" id="sec-cmd" style="padding-bottom: 150px;">
             <h2 class="section-title reveal">시스템 규약</h2>
             <div class="cmd-container reveal" style="transition-delay: 0.1s;">
+                
                 <div class="cmd-col">
-                    
                     <h3 class="cmd-header">상태 확인</h3>
                     <ul class="cmd-list">
                         <li class="cmd-item">
@@ -306,7 +335,7 @@
                         </li>
                     </ul>
 
-                    <h3 class="cmd-header" style="margin-top: 10px;">상호 작용</h3>
+                    <h3 class="cmd-header mt-30">상호 작용</h3>
                     <ul class="cmd-list">
                         <li class="cmd-item">
                             <span class="cmd-code">/스킨십 [대상]</span>
@@ -321,8 +350,8 @@
                             <div class="cmd-desc">서로와 함께했던 가장 포근하고 반짝였던 기억의 조각을 공유합니다.</div>
                         </li>
                     </ul>
-
                 </div>
+
             </div>
         </section>
 
