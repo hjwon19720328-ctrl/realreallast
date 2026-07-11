@@ -3,66 +3,410 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>시안송의 생일기념 스토리!</title>
+    <title>내가 꼭 지켜줄게</title>
     <style>
-        /* (이전과 동일한 CSS 스타일) */
-        body { margin: 0; padding: 0; font-family: 'Pretendard', 'Malgun Gothic', sans-serif; text-align: center; overflow-x: hidden; }
-        #intro-screen { display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; background-color: #fdf5e6; transition: opacity 0.5s ease; }
-        #intro-screen h1 { font-size: 2.5rem; color: #333; margin-bottom: 30px; }
-        .start-btn { padding: 15px 40px; font-size: 1.5rem; font-weight: bold; color: white; background-color: #ff6b6b; border: none; border-radius: 50px; cursor: pointer; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: transform 0.2s, background-color 0.2s; }
-        .start-btn:hover { background-color: #ff5252; transform: scale(1.05); }
+        @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        :root {
+            --bg-color1: #ffecef;
+            --bg-color2: #f8e8f8;
+            --bg-color3: #e6f2fa;
+            --primary-blue: #7bb5d4; 
+            --primary-red: #e67385; 
+            --text-dark: #222222; 
+            --text-light: #555555;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: linear-gradient(120deg, var(--bg-color1) 0%, var(--bg-color2) 50%, var(--bg-color3) 100%);
+            background-size: 200% 200%;
+            background-attachment: fixed;
+            animation: gradientBG 15s ease infinite;
+            color: var(--text-dark);
+            overflow-x: hidden;
+            overflow-y: hidden; 
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.3); }
+
+        .petals-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; overflow: hidden; }
+        .petal {
+            position: absolute; background: radial-gradient(circle, #ffdee4 0%, #ffb6c1 100%);
+            border-radius: 15% 85% 25% 75% / 25% 75% 15% 85%; opacity: 0.6;
+            box-shadow: 0 0 10px rgba(255, 182, 193, 0.3); animation: fall linear infinite, sway ease-in-out infinite alternate;
+        }
+        @keyframes fall { 0% { top: -10%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 110%; opacity: 0; } }
+        @keyframes sway { 0% { transform: translateX(0) rotate(0deg); } 100% { transform: translateX(40px) rotate(30deg); } }
+
+        .hidden { pointer-events: none; opacity: 0 !important; }
         
-        #party-screen { display: none; flex-direction: column; align-items: center; min-height: 100vh; padding: 50px 20px; background: linear-gradient(135deg, #ffeaa7, #fab1a0, #fd79a8); color: #2d3436; }
-        #party-screen h1 { font-size: 3rem; margin-bottom: 40px; text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5); }
-        .character-image-placeholder { width: 300px; height: 300px; background-color: rgba(255, 255, 255, 0.8); border: 5px dashed #ff7675; border-radius: 20px; display: flex; justify-content: center; align-items: center; margin-bottom: 30px; font-size: 1.2rem; color: #636e72; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); }
+        .overlay-screen {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 2s cubic-bezier(0.4, 0, 0.2, 1); z-index: 100;
+        }
+
+        #intro-screen { background: linear-gradient(120deg, var(--bg-color1), var(--bg-color3)); z-index: 102; }
+        .start-btn {
+            background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.8); color: var(--text-dark);
+            padding: 16px 45px; font-size: 1.2rem; border-radius: 50px; cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); font-family: 'Nanum Myeongjo', serif; font-weight: 700;
+            letter-spacing: 4px; transition: all 0.5s ease; animation: floatBtn 3s infinite ease-in-out;
+        }
+        @keyframes floatBtn { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); box-shadow: 0 15px 35px rgba(255,182,193,0.4); } }
+        .start-btn:hover { background: rgba(255, 255, 255, 1); color: var(--primary-red); }
+
+        #story-screen { z-index: 101; background: radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.3) 100%); }
+        .story-text-container { height: 200px; display: flex; align-items: center; justify-content: center; }
+        .story-line {
+            position: absolute; font-size: 2.2rem; color: #222; opacity: 0; filter: blur(15px);
+            transform: scale(0.9); transition: all 2.5s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center; line-height: 1.8; letter-spacing: 3px; font-family: 'Nanum Myeongjo', serif;
+        }
+        .story-line.active { opacity: 1; filter: blur(0px); transform: scale(1); }
+        .story-line.fade-out { opacity: 0; filter: blur(10px); transform: scale(1.1); }
+        .skip-btn { position: absolute; bottom: 40px; right: 50px; background: none; border: none; color: #888; font-size: 1rem; cursor: pointer; transition: 0.3s; z-index: 105; letter-spacing: 2px; }
+        .skip-btn:hover { color: #333; }
+
+        .nav-bar {
+            position: fixed; top: 0; left: 0; width: 100%; padding: 20px 40px;
+            display: flex; justify-content: flex-end; gap: 30px; z-index: 90;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.9), rgba(255,255,255,0));
+            opacity: 0; transition: opacity 1s ease; pointer-events: none;
+        }
+        .nav-bar.show { opacity: 1; pointer-events: auto; }
+        .nav-link { font-family: 'Nanum Myeongjo', serif; font-weight: 700; font-size: 1.1rem; color: #555; cursor: pointer; text-decoration: none; transition: color 0.3s; letter-spacing: 1px; }
+        .nav-link:hover { color: var(--primary-red); }
+
+        #main-wrapper { opacity: 0; transition: opacity 2s ease; display: none; }
+        #main-wrapper.show { opacity: 1; display: block; }
+
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 1.2s cubic-bezier(0.25, 1, 0.5, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        .section {
+            min-height: 100vh; padding: 120px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;
+        }
+        .section-title {
+            font-family: 'Nanum Myeongjo', serif; font-size: 2.2rem; color: #222; margin-bottom: 80px; letter-spacing: 5px; text-align: center; position: relative; font-weight: 800;
+        }
+        .section-title::after { content: ''; position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); width: 30px; height: 2px; background: #888; }
+
+        .main-title { font-family: 'Nanum Myeongjo', serif; font-size: 4.5rem; font-weight: 800; color: #222; margin-bottom: 30px; letter-spacing: 8px; text-shadow: 0 10px 20px rgba(0,0,0,0.08); }
+        .subtitle-group { display: flex; justify-content: center; gap: 40px; font-size: 1.4rem; font-family: 'Nanum Myeongjo', serif; font-weight: 700;}
+        .subtitle-group span.sister { color: var(--primary-blue); }
+        .subtitle-group span.brother { color: var(--primary-red); }
+        .scroll-down { position: absolute; bottom: 50px; font-size: 1rem; font-weight: 700; color: #777; letter-spacing: 3px; animation: floatTitle 2s infinite alternate; }
+
+        .story-book {
+            max-width: 900px; background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px);
+            padding: 60px 80px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.9);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.06); text-align: center; position: relative;
+        }
+        .story-book::before { content: '“'; position: absolute; top: 10px; left: 30px; font-size: 5rem; color: rgba(0,0,0,0.08); font-family: serif; }
+        .story-book::after { content: '”'; position: absolute; bottom: -20px; right: 30px; font-size: 5rem; color: rgba(0,0,0,0.08); font-family: serif; }
+        .story-text { font-family: 'Gowun Batang', serif; font-size: 1.3rem; line-height: 2.2; color: #222; word-break: keep-all; font-weight: 700; }
+        .story-text p { margin-bottom: 25px; }
+
+        .profile-container { display: flex; flex-direction: column; gap: 50px; max-width: 1000px; width: 100%; align-items: center; }
         
-        /* 캐릭터 설명창 디자인 수정 */
-        .character-description { max-width: 600px; background-color: rgba(255, 255, 255, 0.95); padding: 30px 40px; border-radius: 15px; font-size: 1.1rem; line-height: 1.8; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); text-align: left; }
-        .character-description ul { padding-left: 20px; list-style-type: none; margin: 0; }
-        .character-description li { margin-bottom: 15px; }
-        .character-description li::before { content: "✨ "; }
-        .favorite-link { color: #ff6b6b; text-decoration: none; font-weight: bold; border-bottom: 2px solid transparent; transition: border-color 0.2s; }
-        .favorite-link:hover { border-bottom: 2px solid #ff6b6b; }
-        .sub-list { margin-top: 10px; list-style-type: disc !important; padding-left: 25px; color: #555; }
-        .sub-list li::before { content: ""; }
+        .profile-card {
+            display: flex; flex-direction: row; width: 100%; background: rgba(255, 255, 255, 0.85); 
+            backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,1); border-radius: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08); overflow: hidden; transition: transform 0.4s ease;
+        }
+        .profile-card:hover { transform: translateY(-5px); box-shadow: 0 25px 50px rgba(0,0,0,0.12); }
+        
+        .profile-img-box { width: 40%; min-height: 400px; position: relative; }
+        .profile-img-box img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .profile-info { width: 60%; padding: 50px 40px; display: flex; flex-direction: column; justify-content: center; }
+        .char-name { font-family: 'Nanum Myeongjo', serif; font-size: 2.8rem; font-weight: 800; margin-bottom: 20px; letter-spacing: 2px;}
+        .theme-blue .char-name { color: var(--primary-blue); }
+        .theme-red .char-name { color: var(--primary-red); }
+        
+        .char-tags { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap;}
+        .char-tags span { background: #f0f4f8; padding: 6px 18px; border-radius: 20px; font-size: 1rem; color: #333; font-weight: 500; border: 1px solid rgba(0,0,0,0.05); }
+        .char-desc { font-family: 'Noto Sans KR', sans-serif; font-size: 1.15rem; line-height: 1.9; color: #222; word-break: keep-all; font-weight: 400;}
+
+        .cmd-container { display: flex; gap: 40px; max-width: 1000px; width: 100%; }
+        .cmd-col { flex: 1; background: rgba(255, 255, 255, 0.7); padding: 40px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid rgba(255,255,255,0.9);}
+        .cmd-header { font-family: 'Nanum Myeongjo', serif; font-size: 1.8rem; color: #222; font-weight: 800; margin-bottom: 25px; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 15px; }
+        .cmd-list { list-style: none; }
+        .cmd-item { padding: 20px 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .cmd-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .cmd-code { display: inline-block; font-family: monospace; font-size: 1.15rem; color: #111; font-weight: 700; margin-bottom: 10px; background: #f0f0f0; padding: 4px 12px; border-radius: 8px;}
+        .cmd-desc { font-family: 'Noto Sans KR', sans-serif; font-size: 1.1rem; line-height: 1.7; color: #333; }
+
+        /* 음악 제어 오디오 컨트롤러 (화면 좌측 하단 배치) */
+        .audio-player {
+            position: fixed; bottom: 25px; left: 25px; z-index: 200;
+            background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.8); padding: 10px 20px; border-radius: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 10px;
+            font-size: 0.9rem; font-weight: bold; color: #555; opacity: 0; transition: opacity 1s; pointer-events: none;
+        }
+        .audio-player.show { opacity: 1; pointer-events: auto; }
+        .music-btn { background: none; border: none; cursor: pointer; font-size: 1.1rem; color: var(--primary-red); }
+
+        @media (max-width: 850px) {
+            .profile-card { flex-direction: column; }
+            .profile-img-box { width: 100%; height: 350px; min-height: auto; }
+            .profile-info { width: 100%; padding: 40px 30px; }
+            .cmd-container { flex-direction: column; }
+        }
     </style>
 </head>
 <body>
 
-    <div id="intro-screen">
-        <h1>시안송의 생일기념 스토리! 🎂</h1>
-        <button class="start-btn" onclick="startParty()">파티 시작하기</button>
+    <audio id="bgm" src="桜の降る夜에.mp3" loop></audio>
+
+    <div class="petals-container" id="petals-container"></div>
+
+    <div class="audio-player" id="audio-player">
+        <button class="music-btn" id="music-btn" onclick="toggleBGM()">⏸</button>
+        <span id="music-status">BGM On</span>
     </div>
 
-    <div id="party-screen">
-        <h1>🎉 파티 주인공 🎉</h1>
-        
-        <div class="character-image-placeholder" id="image-area">
-            (여기에 이미지가 들어갑니다)
-        </div>
+    <div id="intro-screen" class="overlay-screen">
+        <button class="start-btn" onclick="startStory()">남매들 알아보기</button>
+    </div>
 
-        <div class="character-description" id="desc-area">
-            <ul>
-                <li><strong>성격:</strong> ISTP (극도의 귀차니즘 소유자 🦥)</li>
-                <li><strong>최애:</strong> <a href="https://youtube.com/@tooboe_john?si=qHgjDMYW6LYUJ8o8" target="_blank" class="favorite-link">john/tooboe</a> (이름을 클릭하면 유튜브로 이동!)</li>
-                <li><strong>최근 활동:</strong> 캐릭터 챗 앱 '크랙(Crack)'의 뉴비 제작자 💻</li>
-                <li><strong>숨겨진 이면:</strong>
-                    <ul class="sub-list">
-                        <li>사람들 앞이나 직급 높은 사람과 단둘이 있을 때 조건적 공황을 겪음</li>
-                        <li>종종 찾아오는 자기혐오와 싸우는 중</li>
-                        <li>힘든 감정이나 속마음을 꾹꾹 눌러 담다가 임계점을 넘으면 한 번에 터트리는 타입 🌋</li>
+    <div id="story-screen" class="overlay-screen hidden">
+        <div class="story-text-container" id="story-text-container"></div>
+        <button class="skip-btn" onclick="skipStory()">건너뛰기</button>
+    </div>
+
+    <nav class="nav-bar" id="nav-bar">
+        <a onclick="scrollToSec('sec-past')" class="nav-link">과거</a>
+        <a onclick="scrollToSec('sec-profile')" class="nav-link">프로필</a>
+        <a onclick="scrollToSec('sec-cmd')" class="nav-link">명령어</a>
+    </nav>
+
+    <div id="main-wrapper">
+        
+        <section class="section" id="sec-home">
+            <h1 class="main-title reveal">내가 꼭 지켜줄게</h1>
+            <div class="subtitle-group reveal" style="transition-delay: 0.3s;">
+                <span class="sister">내 사랑하는 동생</span>
+                <span style="color: rgba(0,0,0,0.1);">|</span>
+                <span class="brother">내 자랑스러운 누나</span>
+            </div>
+            <div class="scroll-down">SCROLL ↓</div>
+        </section>
+
+        <section class="section" id="sec-past">
+            <h2 class="section-title reveal">과거의 잔상</h2>
+            <div class="story-book reveal" style="transition-delay: 0.2s;">
+                <div class="story-text">
+                    <p>부모님과 고아원을 잃고 남겨진 낡은 집. 전기도 물도 끊긴 사각지대에서, 시력마저 잃어버린 1학년 시안은 오직 압도적인 지능과 손끝 감각만으로 급식카드를 계산하며 소리 없는 동생을 먹여 살렸다. 동생 송은 인공와우 수술을 받지 못해 태어날 때부터 단 한 번도 소리를 들어본 적이 없었고, 어둡고 추운 방 안에서 오직 누나의 심장 박동과 맞잡은 손의 온기만을 이정표 삼아 자라났다.</p>
+                    <p>세상의 모든 공포를 차단해 준 누나는 동생에게 유일한 신이었고, 시안은 자신의 눈을 포기하는 대신 동생의 우주가 되기를 선택했다. 빛과 소리가 단절된 공간에서 둘은 서로가 아니면 살아갈 수 없는 완벽하고도 지독한 세계를 구축했다.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="sec-profile">
+            <h2 class="section-title reveal">현재의 조각</h2>
+            <div class="profile-container">
+                
+                <div class="profile-card theme-blue reveal" style="transition-delay: 0.1s;">
+                    <div class="profile-img-box">
+                        <img src="https://igx.kr/u/L7/h/1" alt="시안">
+                    </div>
+                    <div class="profile-info">
+                        <div class="char-name">시안</div>
+                        <div class="char-tags">
+                            <span>INTJ</span>
+                            <span>2w1</span>
+                            <span>절대적 보호자</span>
+                        </div>
+                        <div class="char-desc">
+                            성인이 된 지금, 앞은 완전히 보이지 않아 일상생활을 온전히 송의 손길에 의지하고 있다. 어릴 적의 천재적인 두뇌는 여전하며, 겉으로는 상냥하고 부드러운 미소를 짓고 있지만 그 이면에는 동생을 향한 거대한 과보호와 집착의 감정을 숨기고 있다.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-card theme-red reveal" style="transition-delay: 0.3s;">
+                    <div class="profile-img-box">
+                        <img src="https://igx.kr/u/L7/g/1" alt="송">
+                    </div>
+                    <div class="profile-info">
+                        <div class="char-name">송</div>
+                        <div class="char-tags">
+                            <span>ISFP</span>
+                            <span>4w5</span>
+                            <span>맹목적 추종자</span>
+                        </div>
+                        <div class="char-desc">
+                            성인이 된 후, 시안을 보호해야 한다는 맹목적인 존경은 지독한 독점욕으로 변모했다. 자신이 누나의 눈이 되어준다는 명목하에 시안의 모든 것을 통제하려 하며, 타인에게는 무감각하지만 오직 시안의 숨결과 시선만을 갈구한다.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="section" id="sec-cmd" style="padding-bottom: 200px;">
+            <h2 class="section-title reveal">시스템 규약</h2>
+            <div class="cmd-container reveal" style="transition-delay: 0.2s;">
+                
+                <div class="cmd-col">
+                    <h3 class="cmd-header">상태 확인</h3>
+                    <ul class="cmd-list">
+                        <li class="cmd-item">
+                            <span class="cmd-code">/상태창 [대상]</span>
+                            <div class="cmd-desc">현재 두 사람의 신체 상태(피로도, 공포심 등) 및 멘탈 수치를 확인합니다.</div>
+                        </li>
+                        <li class="cmd-item">
+                            <span class="cmd-code">/호감도</span>
+                            <div class="cmd-desc">서로를 향한 의존도 및 집착 수치를 확인합니다. 특정 이벤트 후 수치가 변동될 수 있습니다.</div>
+                        </li>
+                        <li class="cmd-item">
+                            <span class="cmd-code">/소지품</span>
+                            <div class="cmd-desc">현재 가지고 있는 생존 자원(급식카드 잔액, 촛불 개수, 식량 등)을 확인합니다.</div>
+                        </li>
                     </ul>
-                </li>
-            </ul>
-        </div>
+                </div>
+
+                <div class="cmd-col">
+                    <h3 class="cmd-header">상호 작용</h3>
+                    <ul class="cmd-list">
+                        <li class="cmd-item">
+                            <span class="cmd-code">/스킨십 [대상]</span>
+                            <div class="cmd-desc">촉각을 통해 서로의 상태나 감정을 전달합니다. (둘 사이의 유일한 대화 수단)</div>
+                        </li>
+                        <li class="cmd-item">
+                            <span class="cmd-code">/외출</span>
+                            <div class="cmd-desc">약수터나 편의점 등 외부로 이동합니다. 외부인과 마주치면 위험도가 상승합니다.</div>
+                        </li>
+                        <li class="cmd-item">
+                            <span class="cmd-code">/회상</span>
+                            <div class="cmd-desc">1학년 시절, 암흑과 고요 속에서 버텼던 둘만의 애틋한 특정 기억을 불러옵니다.</div>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+
     </div>
 
     <script>
-        function startParty() {
-            document.getElementById('intro-screen').style.display = 'none';
-            document.getElementById('party-screen').style.display = 'flex';
+        const petalsContainer = document.getElementById('petals-container');
+        function createPetal() {
+            const petal = document.createElement('div'); petal.classList.add('petal');
+            const size = Math.random() * 8 + 8; const left = Math.random() * 100;
+            const duration = Math.random() * 6 + 6; const delay = Math.random() * 5;
+            petal.style.width = `${size}px`; petal.style.height = `${size * 1.2}px`;
+            petal.style.left = `${left}%`; petal.style.animationDuration = `${duration}s, ${duration/2}s`;
+            petal.style.animationDelay = `${delay}s, ${delay}s`;
+            petalsContainer.appendChild(petal);
+            setTimeout(() => { petal.remove(); createPetal(); }, (duration + delay) * 1000);
         }
-    </script>
+        for(let i=0; i<25; i++) createPetal();
 
+        const storyLines = [
+            "빛을 잃어버린 천재 누나,", "소리를 모르는 쌍둥이 동생.",
+            "아무도 돌아보지 않는 낡은 집에서", "서로는,", "서로의 완벽한 세상이었다."
+        ];
+        let storyTimers = []; let isSkipped = false;
+
+        const bgm = document.getElementById('bgm');
+
+        function startStory() {
+            document.getElementById('intro-screen').classList.add('hidden');
+            document.getElementById('story-screen').classList.remove('hidden');
+            
+            // 유저 인터랙션 타이밍에 노래 부드럽게 재생 시작
+            bgm.volume = 0.5; // 음량 50% 세팅
+            bgm.play().catch(error => console.log("오디오 재생 실패:", error));
+
+            const container = document.getElementById('story-text-container');
+            let delay = 0;
+            
+            storyLines.forEach((line, index) => {
+                const el = document.createElement('div'); el.className = 'story-line'; el.textContent = line;
+                container.appendChild(el);
+                storyTimers.push(setTimeout(() => { if(!isSkipped) el.classList.add('active'); }, delay));
+                delay += 3500;
+                if (index < storyLines.length - 1) {
+                    storyTimers.push(setTimeout(() => { if(!isSkipped) { el.classList.remove('active'); el.classList.add('fade-out'); } }, delay - 1000)); 
+                }
+            });
+            storyTimers.push(setTimeout(() => { if(!isSkipped) transitionToMain(); }, delay + 1500));
+        }
+
+        function skipStory() { 
+            isSkipped = true; 
+            storyTimers.forEach(timer => clearTimeout(timer)); 
+            bgm.play().catch(error => console.log(error)); // 스킵해도 노래 켜지도록 보장
+            transitionToMain(); 
+        }
+
+        function transitionToMain() {
+            document.getElementById('story-screen').classList.add('hidden');
+            setTimeout(() => {
+                document.getElementById('story-screen').style.display = 'none';
+                document.getElementById('intro-screen').style.display = 'none';
+                
+                document.body.style.overflowY = 'auto'; 
+                document.getElementById('main-wrapper').classList.add('show');
+                document.getElementById('nav-bar').classList.add('show');
+                document.getElementById('audio-player').classList.add('show'); // 오디오 플레이어 UI 표시
+                
+                setTimeout(reveal, 100);
+            }, 1500);
+        }
+
+        // BGM 켜고 끄는 재생/일시정지 함수
+        function toggleBGM() {
+            const btn = document.getElementById('music-btn');
+            const status = document.getElementById('music-status');
+            if (bgm.paused) {
+                bgm.play();
+                btn.textContent = '⏸';
+                status.textContent = 'BGM On';
+            } else {
+                bgm.pause();
+                btn.textContent = '▶';
+                status.textContent = 'BGM Off';
+            }
+        }
+
+        function scrollToSec(sectionId) {
+            const section = document.getElementById(sectionId);
+            if(section) {
+                window.scrollTo({ top: section.offsetTop, behavior: 'smooth' });
+            }
+        }
+
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+    </script>
 </body>
 </html>
