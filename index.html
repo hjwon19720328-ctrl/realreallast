@@ -151,7 +151,6 @@
         .cmd-code { display: inline-block; font-family: monospace; font-size: 1.05rem; color: #111; font-weight: 700; margin-bottom: 8px; background: #eef1f4; padding: 4px 10px; border-radius: 6px;}
         .cmd-desc { font-family: 'Noto Sans KR', sans-serif; font-size: 1rem; line-height: 1.6; color: #333; }
 
-        /* 하단 오디오 컨트롤러 (모바일 접근성 향상) */
         .audio-player {
             position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 200;
             background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px);
@@ -163,14 +162,12 @@
         .audio-player.show { opacity: 1; pointer-events: auto; }
         .music-btn { background: none; border: none; cursor: pointer; font-size: 1rem; color: var(--primary-red); outline: none; padding: 2px; }
 
-        /* 📱 모바일 디바이스 완벽 대응 미디어 쿼리 */
         @media (max-width: 768px) {
             .nav-bar { padding: 12px 20px; gap: 15px; background: rgba(255,255,255,0.92); box-shadow: 0 2px 10px rgba(0,0,0,0.03); justify-content: center; }
             .nav-link { font-size: 0.95rem; }
             
             .main-title { font-size: 2.3rem; margin-bottom: 20px; }
             .subtitle-group { font-size: 1rem; flex-direction: column; gap: 8px; }
-            .subtitle-group span style { display: none; } /* 모바일에서 구분선 제거 */
 
             .story-line { font-size: 1.35rem; width: 90%; line-height: 1.6; }
             .story-book { padding: 30px 20px; }
@@ -192,7 +189,7 @@
 </head>
 <body>
 
-    <audio id="bgm" src="桜의降る夜에.mp3" loop preload="auto"></audio>
+    <audio id="bgm" src="桜の降る夜に.mp3" loop preload="auto"></audio>
 
     <div class="petals-container" id="petals-container"></div>
 
@@ -347,12 +344,11 @@
         const bgm = document.getElementById('bgm');
 
         function startStory() {
-            // [모바일 대응 필수 가이드] 터치/클릭한 직후에 곧바로 play()를 때려야 브라우저 락이 풀립니다.
             bgm.volume = 0.4;
             var playPromise = bgm.play();
             if (playPromise !== undefined) {
                 playPromise.catch(error => {
-                    console.log("자동 재생이 차단되었습니다. 상호작용 후 재생을 재시도합니다.", error);
+                    console.log("자동 재생이 차단되었습니다.", error);
                 });
             }
 
@@ -412,7 +408,7 @@
         function scrollToSec(sectionId) {
             const section = document.getElementById(sectionId);
             if(section) {
-                const offset = window.innerWidth < 768 ? 60 : 0; // 모바일 상단 바 높이만큼 조절
+                const offset = window.innerWidth < 768 ? 60 : 0;
                 window.scrollTo({ top: section.offsetTop - offset, behavior: 'smooth' });
             }
         }
