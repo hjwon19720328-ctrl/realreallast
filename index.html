@@ -28,7 +28,6 @@
             animation: gradientBG 15s ease infinite;
             color: var(--text-dark);
             overflow-x: hidden;
-            overflow-y: hidden; 
         }
 
         @keyframes gradientBG {
@@ -37,10 +36,9 @@
             100% { background-position: 0% 50%; }
         }
 
-        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.3); }
+        ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 10px; }
 
         .petals-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; overflow: hidden; }
         .petal {
@@ -49,131 +47,152 @@
             box-shadow: 0 0 10px rgba(255, 182, 193, 0.3); animation: fall linear infinite, sway ease-in-out infinite alternate;
         }
         @keyframes fall { 0% { top: -10%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 110%; opacity: 0; } }
-        @keyframes sway { 0% { transform: translateX(0) rotate(0deg); } 100% { transform: translateX(40px) rotate(30deg); } }
+        @keyframes sway { 0% { transform: translateX(0) rotate(0deg); } 100% { transform: translateX(30px) rotate(20deg); } }
 
         .hidden { pointer-events: none; opacity: 0 !important; }
         
         .overlay-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: opacity 2s cubic-bezier(0.4, 0, 0.2, 1); z-index: 100;
+            transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1); z-index: 100; padding: 20px;
         }
 
         #intro-screen { background: linear-gradient(120deg, var(--bg-color1), var(--bg-color3)); z-index: 102; }
         .start-btn {
-            background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.8); color: var(--text-dark);
-            padding: 16px 45px; font-size: 1.2rem; border-radius: 50px; cursor: pointer;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05); font-family: 'Nanum Myeongjo', serif; font-weight: 700;
-            letter-spacing: 4px; transition: all 0.5s ease; animation: floatBtn 3s infinite ease-in-out;
+            background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.9); color: var(--text-dark);
+            padding: 16px 40px; font-size: 1.15rem; border-radius: 50px; cursor: pointer;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05); font-family: 'Nanum Myeongjo', serif; font-weight: 700;
+            letter-spacing: 3px; transition: all 0.4s ease; animation: floatBtn 3s infinite ease-in-out;
+            text-align: center; max-width: 90%;
         }
-        @keyframes floatBtn { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); box-shadow: 0 15px 35px rgba(255,182,193,0.4); } }
+        @keyframes floatBtn { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(255,182,193,0.4); } }
         .start-btn:hover { background: rgba(255, 255, 255, 1); color: var(--primary-red); }
 
-        #story-screen { z-index: 101; background: radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.3) 100%); }
-        .story-text-container { height: 200px; display: flex; align-items: center; justify-content: center; }
+        #story-screen { z-index: 101; background: radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.5) 100%); }
+        .story-text-container { height: 180px; display: flex; align-items: center; justify-content: center; width: 100%; max-width: 600px; padding: 0 20px; }
         .story-line {
-            position: absolute; font-size: 2.2rem; color: #222; opacity: 0; filter: blur(15px);
-            transform: scale(0.9); transition: all 2.5s cubic-bezier(0.4, 0, 0.2, 1);
-            text-align: center; line-height: 1.8; letter-spacing: 3px; font-family: 'Nanum Myeongjo', serif;
+            position: absolute; font-size: 1.8rem; color: #222; opacity: 0; filter: blur(12px);
+            transform: scale(0.92); transition: all 2s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center; line-height: 1.7; letter-spacing: 2px; font-family: 'Nanum Myeongjo', serif;
+            word-break: keep-all; width: 85%;
         }
         .story-line.active { opacity: 1; filter: blur(0px); transform: scale(1); }
-        .story-line.fade-out { opacity: 0; filter: blur(10px); transform: scale(1.1); }
-        .skip-btn { position: absolute; bottom: 40px; right: 50px; background: none; border: none; color: #888; font-size: 1rem; cursor: pointer; transition: 0.3s; z-index: 105; letter-spacing: 2px; }
-        .skip-btn:hover { color: #333; }
-
+        .story-line.fade-out { opacity: 0; filter: blur(8px); transform: scale(1.05); }
+        
+        .skip-btn { position: absolute; bottom: 30px; right: 30px; background: none; border: none; color: #888; font-size: 0.95rem; cursor: pointer; transition: 0.3s; z-index: 105; letter-spacing: 1px; padding: 10px; }
+        
         .nav-bar {
-            position: fixed; top: 0; left: 0; width: 100%; padding: 20px 40px;
-            display: flex; justify-content: flex-end; gap: 30px; z-index: 90;
-            background: linear-gradient(to bottom, rgba(255,255,255,0.9), rgba(255,255,255,0));
+            position: fixed; top: 0; left: 0; width: 100%; padding: 15px 25px;
+            display: flex; justify-content: flex-end; gap: 20px; z-index: 90;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.85), rgba(255,255,255,0));
             opacity: 0; transition: opacity 1s ease; pointer-events: none;
         }
         .nav-bar.show { opacity: 1; pointer-events: auto; }
-        .nav-link { font-family: 'Nanum Myeongjo', serif; font-weight: 700; font-size: 1.1rem; color: #555; cursor: pointer; text-decoration: none; transition: color 0.3s; letter-spacing: 1px; }
+        .nav-link { font-family: 'Nanum Myeongjo', serif; font-weight: 700; font-size: 1rem; color: #555; cursor: pointer; text-decoration: none; transition: color 0.3s; }
         .nav-link:hover { color: var(--primary-red); }
 
-        #main-wrapper { opacity: 0; transition: opacity 2s ease; display: none; }
+        #main-wrapper { opacity: 0; transition: opacity 1.5s ease; display: none; width: 100%; }
         #main-wrapper.show { opacity: 1; display: block; }
 
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 1.2s cubic-bezier(0.25, 1, 0.5, 1); }
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 1s cubic-bezier(0.25, 1, 0.5, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
         .section {
-            min-height: 100vh; padding: 120px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;
+            min-height: 100vh; padding: 100px 20px 60px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; width: 100%;
         }
         .section-title {
-            font-family: 'Nanum Myeongjo', serif; font-size: 2.2rem; color: #222; margin-bottom: 80px; letter-spacing: 5px; text-align: center; position: relative; font-weight: 800;
+            font-family: 'Nanum Myeongjo', serif; font-size: 2rem; color: #222; margin-bottom: 50px; letter-spacing: 4px; text-align: center; position: relative; font-weight: 800;
         }
-        .section-title::after { content: ''; position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); width: 30px; height: 2px; background: #888; }
+        .section-title::after { content: ''; position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); width: 25px; height: 2px; background: #888; }
 
-        .main-title { font-family: 'Nanum Myeongjo', serif; font-size: 4.5rem; font-weight: 800; color: #222; margin-bottom: 30px; letter-spacing: 8px; text-shadow: 0 10px 20px rgba(0,0,0,0.08); }
-        .subtitle-group { display: flex; justify-content: center; gap: 40px; font-size: 1.4rem; font-family: 'Nanum Myeongjo', serif; font-weight: 700;}
+        .main-title { font-family: 'Nanum Myeongjo', serif; font-size: 3.2rem; font-weight: 800; color: #222; margin-bottom: 25px; letter-spacing: 5px; text-shadow: 0 5px 15px rgba(0,0,0,0.05); text-align: center; word-break: keep-all; line-height: 1.3; padding: 0 10px; }
+        .subtitle-group { display: flex; justify-content: center; gap: 20px; font-size: 1.15rem; font-family: 'Nanum Myeongjo', serif; font-weight: 700; text-align: center; }
         .subtitle-group span.sister { color: var(--primary-blue); }
         .subtitle-group span.brother { color: var(--primary-red); }
-        .scroll-down { position: absolute; bottom: 50px; font-size: 1rem; font-weight: 700; color: #777; letter-spacing: 3px; animation: floatTitle 2s infinite alternate; }
+        .scroll-down { position: absolute; bottom: 40px; font-size: 0.85rem; font-weight: 700; color: #888; letter-spacing: 2px; animation: floatTitle 2s infinite alternate; }
+        @keyframes floatTitle { 0% { transform: translateY(0); } 100% { transform: translateY(-6px); } }
 
         .story-book {
-            max-width: 900px; background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px);
-            padding: 60px 80px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.9);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.06); text-align: center; position: relative;
+            max-width: 800px; width: 100%; background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(15px);
+            padding: 45px 35px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.9);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.04); text-align: center; position: relative;
         }
-        .story-book::before { content: '“'; position: absolute; top: 10px; left: 30px; font-size: 5rem; color: rgba(0,0,0,0.08); font-family: serif; }
-        .story-book::after { content: '”'; position: absolute; bottom: -20px; right: 30px; font-size: 5rem; color: rgba(0,0,0,0.08); font-family: serif; }
-        .story-text { font-family: 'Gowun Batang', serif; font-size: 1.3rem; line-height: 2.2; color: #222; word-break: keep-all; font-weight: 700; }
-        .story-text p { margin-bottom: 25px; }
+        .story-text { font-family: 'Gowun Batang', serif; font-size: 1.15rem; line-height: 2.1; color: #222; word-break: keep-all; font-weight: 700; text-align: justify; text-justify: inter-character; }
+        .story-text p { margin-bottom: 20px; }
+        .story-text p:last-child { margin-bottom: 0; }
 
-        .profile-container { display: flex; flex-direction: column; gap: 50px; max-width: 1000px; width: 100%; align-items: center; }
+        .profile-container { display: flex; flex-direction: column; gap: 40px; max-width: 900px; width: 100%; align-items: center; }
         
         .profile-card {
             display: flex; flex-direction: row; width: 100%; background: rgba(255, 255, 255, 0.85); 
-            backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,1); border-radius: 30px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08); overflow: hidden; transition: transform 0.4s ease;
+            backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,1); border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.06); overflow: hidden; transition: transform 0.3s ease;
         }
-        .profile-card:hover { transform: translateY(-5px); box-shadow: 0 25px 50px rgba(0,0,0,0.12); }
         
-        .profile-img-box { width: 40%; min-height: 400px; position: relative; }
-        .profile-img-box img { width: 100%; height: 100%; object-fit: cover; }
+        .profile-img-box { width: 35%; min-height: 350px; position: relative; }
+        .profile-img-box img { width: 100%; height: 100%; object-fit: cover; position: absolute; top:0; left:0; }
         
-        .profile-info { width: 60%; padding: 50px 40px; display: flex; flex-direction: column; justify-content: center; }
-        .char-name { font-family: 'Nanum Myeongjo', serif; font-size: 2.8rem; font-weight: 800; margin-bottom: 20px; letter-spacing: 2px;}
+        .profile-info { width: 65%; padding: 40px 35px; display: flex; flex-direction: column; justify-content: center; }
+        .char-name { font-family: 'Nanum Myeongjo', serif; font-size: 2.3rem; font-weight: 800; margin-bottom: 15px; letter-spacing: 1px;}
         .theme-blue .char-name { color: var(--primary-blue); }
         .theme-red .char-name { color: var(--primary-red); }
         
-        .char-tags { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap;}
-        .char-tags span { background: #f0f4f8; padding: 6px 18px; border-radius: 20px; font-size: 1rem; color: #333; font-weight: 500; border: 1px solid rgba(0,0,0,0.05); }
-        .char-desc { font-family: 'Noto Sans KR', sans-serif; font-size: 1.15rem; line-height: 1.9; color: #222; word-break: keep-all; font-weight: 400;}
+        .char-tags { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap;}
+        .char-tags span { background: #f2f5f9; padding: 5px 14px; border-radius: 20px; font-size: 0.9rem; color: #444; font-weight: 500; border: 1px solid rgba(0,0,0,0.04); }
+        .char-desc { font-family: 'Noto Sans KR', sans-serif; font-size: 1.05rem; line-height: 1.8; color: #222; word-break: keep-all;}
 
-        .cmd-container { display: flex; gap: 40px; max-width: 1000px; width: 100%; }
-        .cmd-col { flex: 1; background: rgba(255, 255, 255, 0.7); padding: 40px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid rgba(255,255,255,0.9);}
-        .cmd-header { font-family: 'Nanum Myeongjo', serif; font-size: 1.8rem; color: #222; font-weight: 800; margin-bottom: 25px; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 15px; }
+        .cmd-container { display: flex; gap: 30px; max-width: 900px; width: 100%; }
+        .cmd-col { flex: 1; background: rgba(255, 255, 255, 0.72); padding: 35px; border-radius: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.04); border: 1px solid rgba(255,255,255,0.9);}
+        .cmd-header { font-family: 'Nanum Myeongjo', serif; font-size: 1.6rem; color: #222; font-weight: 800; margin-bottom: 20px; border-bottom: 2px solid rgba(0,0,0,0.08); padding-bottom: 12px; }
         .cmd-list { list-style: none; }
-        .cmd-item { padding: 20px 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .cmd-item { padding: 18px 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
         .cmd-item:last-child { border-bottom: none; padding-bottom: 0; }
-        .cmd-code { display: inline-block; font-family: monospace; font-size: 1.15rem; color: #111; font-weight: 700; margin-bottom: 10px; background: #f0f0f0; padding: 4px 12px; border-radius: 8px;}
-        .cmd-desc { font-family: 'Noto Sans KR', sans-serif; font-size: 1.1rem; line-height: 1.7; color: #333; }
+        .cmd-code { display: inline-block; font-family: monospace; font-size: 1.05rem; color: #111; font-weight: 700; margin-bottom: 8px; background: #eef1f4; padding: 4px 10px; border-radius: 6px;}
+        .cmd-desc { font-family: 'Noto Sans KR', sans-serif; font-size: 1rem; line-height: 1.6; color: #333; }
 
-        /* 음악 제어 오디오 컨트롤러 (화면 좌측 하단 배치) */
+        /* 하단 오디오 컨트롤러 (모바일 접근성 향상) */
         .audio-player {
-            position: fixed; bottom: 25px; left: 25px; z-index: 200;
-            background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.8); padding: 10px 20px; border-radius: 30px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 10px;
-            font-size: 0.9rem; font-weight: bold; color: #555; opacity: 0; transition: opacity 1s; pointer-events: none;
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 200;
+            background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.9); padding: 8px 18px; border-radius: 30px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08); display: flex; align-items: center; gap: 10px;
+            font-size: 0.85rem; font-weight: bold; color: #444; opacity: 0; transition: opacity 0.8s; pointer-events: none;
+            white-space: nowrap;
         }
         .audio-player.show { opacity: 1; pointer-events: auto; }
-        .music-btn { background: none; border: none; cursor: pointer; font-size: 1.1rem; color: var(--primary-red); }
+        .music-btn { background: none; border: none; cursor: pointer; font-size: 1rem; color: var(--primary-red); outline: none; padding: 2px; }
 
-        @media (max-width: 850px) {
+        /* 📱 모바일 디바이스 완벽 대응 미디어 쿼리 */
+        @media (max-width: 768px) {
+            .nav-bar { padding: 12px 20px; gap: 15px; background: rgba(255,255,255,0.92); box-shadow: 0 2px 10px rgba(0,0,0,0.03); justify-content: center; }
+            .nav-link { font-size: 0.95rem; }
+            
+            .main-title { font-size: 2.3rem; margin-bottom: 20px; }
+            .subtitle-group { font-size: 1rem; flex-direction: column; gap: 8px; }
+            .subtitle-group span style { display: none; } /* 모바일에서 구분선 제거 */
+
+            .story-line { font-size: 1.35rem; width: 90%; line-height: 1.6; }
+            .story-book { padding: 30px 20px; }
+            .story-text { font-size: 1.05rem; line-height: 1.9; text-align: left; }
+
             .profile-card { flex-direction: column; }
-            .profile-img-box { width: 100%; height: 350px; min-height: auto; }
-            .profile-info { width: 100%; padding: 40px 30px; }
-            .cmd-container { flex-direction: column; }
+            .profile-img-box { width: 100%; height: 280px; min-height: auto; }
+            .profile-info { width: 100%; padding: 25px 20px; }
+            .char-name { font-size: 1.9rem; margin-bottom: 10px; }
+            
+            .cmd-container { flex-direction: column; gap: 20px; }
+            .cmd-col { padding: 25px 20px; }
+            .cmd-header { font-size: 1.4rem; }
+            
+            .section { padding-top: 80px; }
+            .section-title { font-size: 1.6rem; margin-bottom: 35px; }
         }
     </style>
 </head>
 <body>
 
-    <audio id="bgm" src="桜の降る夜에.mp3" loop></audio>
+    <audio id="bgm" src="桜의降る夜에.mp3" loop preload="auto"></audio>
 
     <div class="petals-container" id="petals-container"></div>
 
@@ -201,9 +220,8 @@
         
         <section class="section" id="sec-home">
             <h1 class="main-title reveal">내가 꼭 지켜줄게</h1>
-            <div class="subtitle-group reveal" style="transition-delay: 0.3s;">
+            <div class="subtitle-group reveal" style="transition-delay: 0.2s;">
                 <span class="sister">내 사랑하는 동생</span>
-                <span style="color: rgba(0,0,0,0.1);">|</span>
                 <span class="brother">내 자랑스러운 누나</span>
             </div>
             <div class="scroll-down">SCROLL ↓</div>
@@ -211,7 +229,7 @@
 
         <section class="section" id="sec-past">
             <h2 class="section-title reveal">과거의 잔상</h2>
-            <div class="story-book reveal" style="transition-delay: 0.2s;">
+            <div class="story-book reveal" style="transition-delay: 0.1s;">
                 <div class="story-text">
                     <p>부모님과 고아원을 잃고 남겨진 낡은 집. 전기도 물도 끊긴 사각지대에서, 시력마저 잃어버린 1학년 시안은 오직 압도적인 지능과 손끝 감각만으로 급식카드를 계산하며 소리 없는 동생을 먹여 살렸다. 동생 송은 인공와우 수술을 받지 못해 태어날 때부터 단 한 번도 소리를 들어본 적이 없었고, 어둡고 추운 방 안에서 오직 누나의 심장 박동과 맞잡은 손의 온기만을 이정표 삼아 자라났다.</p>
                     <p>세상의 모든 공포를 차단해 준 누나는 동생에게 유일한 신이었고, 시안은 자신의 눈을 포기하는 대신 동생의 우주가 되기를 선택했다. 빛과 소리가 단절된 공간에서 둘은 서로가 아니면 살아갈 수 없는 완벽하고도 지독한 세계를 구축했다.</p>
@@ -240,7 +258,7 @@
                     </div>
                 </div>
 
-                <div class="profile-card theme-red reveal" style="transition-delay: 0.3s;">
+                <div class="profile-card theme-red reveal" style="transition-delay: 0.2s;">
                     <div class="profile-img-box">
                         <img src="https://igx.kr/u/L7/g/1" alt="송">
                     </div>
@@ -260,24 +278,24 @@
             </div>
         </section>
 
-        <section class="section" id="sec-cmd" style="padding-bottom: 200px;">
+        <section class="section" id="sec-cmd" style="padding-bottom: 150px;">
             <h2 class="section-title reveal">시스템 규약</h2>
-            <div class="cmd-container reveal" style="transition-delay: 0.2s;">
+            <div class="cmd-container reveal" style="transition-delay: 0.1s;">
                 
                 <div class="cmd-col">
                     <h3 class="cmd-header">상태 확인</h3>
                     <ul class="cmd-list">
                         <li class="cmd-item">
                             <span class="cmd-code">/상태창 [대상]</span>
-                            <div class="cmd-desc">현재 두 사람의 신체 상태(피로도, 공포심 등) 및 멘탈 수치를 확인합니다.</div>
+                            <div class="cmd-desc">현재 두 사람의 신체 상태 및 멘탈 수치를 확인합니다.</div>
                         </li>
                         <li class="cmd-item">
                             <span class="cmd-code">/호감도</span>
-                            <div class="cmd-desc">서로를 향한 의존도 및 집착 수치를 확인합니다. 특정 이벤트 후 수치가 변동될 수 있습니다.</div>
+                            <div class="cmd-desc">서로를 향한 의존도 및 집착 수치를 확인합니다.</div>
                         </li>
                         <li class="cmd-item">
                             <span class="cmd-code">/소지품</span>
-                            <div class="cmd-desc">현재 가지고 있는 생존 자원(급식카드 잔액, 촛불 개수, 식량 등)을 확인합니다.</div>
+                            <div class="cmd-desc">현재 가지고 있는 생존 자원(급식카드 잔액 등)을 확인합니다.</div>
                         </li>
                     </ul>
                 </div>
@@ -287,15 +305,15 @@
                     <ul class="cmd-list">
                         <li class="cmd-item">
                             <span class="cmd-code">/스킨십 [대상]</span>
-                            <div class="cmd-desc">촉각을 통해 서로의 상태나 감정을 전달합니다. (둘 사이의 유일한 대화 수단)</div>
+                            <div class="cmd-desc">촉각을 통해 서로의 상태나 감정을 전달합니다. (유일한 대화 수단)</div>
                         </li>
                         <li class="cmd-item">
                             <span class="cmd-code">/외출</span>
-                            <div class="cmd-desc">약수터나 편의점 등 외부로 이동합니다. 외부인과 마주치면 위험도가 상승합니다.</div>
+                            <div class="cmd-desc">외부로 이동합니다. 외부인과 마주치면 위험도가 상승합니다.</div>
                         </li>
                         <li class="cmd-item">
                             <span class="cmd-code">/회상</span>
-                            <div class="cmd-desc">1학년 시절, 암흑과 고요 속에서 버텼던 둘만의 애틋한 특정 기억을 불러옵니다.</div>
+                            <div class="cmd-desc">1학년 시절, 암흑과 고요 속에서 버텼던 둘만의 기억을 불러옵니다.</div>
                         </li>
                     </ul>
                 </div>
@@ -309,15 +327,16 @@
         const petalsContainer = document.getElementById('petals-container');
         function createPetal() {
             const petal = document.createElement('div'); petal.classList.add('petal');
-            const size = Math.random() * 8 + 8; const left = Math.random() * 100;
-            const duration = Math.random() * 6 + 6; const delay = Math.random() * 5;
+            const size = Math.random() * 6 + 6; const left = Math.random() * 100;
+            const duration = Math.random() * 5 + 5; const delay = Math.random() * 4;
             petal.style.width = `${size}px`; petal.style.height = `${size * 1.2}px`;
             petal.style.left = `${left}%`; petal.style.animationDuration = `${duration}s, ${duration/2}s`;
             petal.style.animationDelay = `${delay}s, ${delay}s`;
             petalsContainer.appendChild(petal);
             setTimeout(() => { petal.remove(); createPetal(); }, (duration + delay) * 1000);
         }
-        for(let i=0; i<25; i++) createPetal();
+        const initialPetals = window.innerWidth < 768 ? 12 : 25;
+        for(let i=0; i<initialPetals; i++) createPetal();
 
         const storyLines = [
             "빛을 잃어버린 천재 누나,", "소리를 모르는 쌍둥이 동생.",
@@ -328,12 +347,17 @@
         const bgm = document.getElementById('bgm');
 
         function startStory() {
+            // [모바일 대응 필수 가이드] 터치/클릭한 직후에 곧바로 play()를 때려야 브라우저 락이 풀립니다.
+            bgm.volume = 0.4;
+            var playPromise = bgm.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.log("자동 재생이 차단되었습니다. 상호작용 후 재생을 재시도합니다.", error);
+                });
+            }
+
             document.getElementById('intro-screen').classList.add('hidden');
             document.getElementById('story-screen').classList.remove('hidden');
-            
-            // 유저 인터랙션 타이밍에 노래 부드럽게 재생 시작
-            bgm.volume = 0.5; // 음량 50% 세팅
-            bgm.play().catch(error => console.log("오디오 재생 실패:", error));
 
             const container = document.getElementById('story-text-container');
             let delay = 0;
@@ -342,18 +366,18 @@
                 const el = document.createElement('div'); el.className = 'story-line'; el.textContent = line;
                 container.appendChild(el);
                 storyTimers.push(setTimeout(() => { if(!isSkipped) el.classList.add('active'); }, delay));
-                delay += 3500;
+                delay += 3200;
                 if (index < storyLines.length - 1) {
-                    storyTimers.push(setTimeout(() => { if(!isSkipped) { el.classList.remove('active'); el.classList.add('fade-out'); } }, delay - 1000)); 
+                    storyTimers.push(setTimeout(() => { if(!isSkipped) { el.classList.remove('active'); el.classList.add('fade-out'); } }, delay - 800)); 
                 }
             });
-            storyTimers.push(setTimeout(() => { if(!isSkipped) transitionToMain(); }, delay + 1500));
+            storyTimers.push(setTimeout(() => { if(!isSkipped) transitionToMain(); }, delay + 1000));
         }
 
         function skipStory() { 
             isSkipped = true; 
             storyTimers.forEach(timer => clearTimeout(timer)); 
-            bgm.play().catch(error => console.log(error)); // 스킵해도 노래 켜지도록 보장
+            bgm.play().catch(error => console.log(error));
             transitionToMain(); 
         }
 
@@ -363,21 +387,19 @@
                 document.getElementById('story-screen').style.display = 'none';
                 document.getElementById('intro-screen').style.display = 'none';
                 
-                document.body.style.overflowY = 'auto'; 
                 document.getElementById('main-wrapper').classList.add('show');
                 document.getElementById('nav-bar').classList.add('show');
-                document.getElementById('audio-player').classList.add('show'); // 오디오 플레이어 UI 표시
+                document.getElementById('audio-player').classList.add('show');
                 
                 setTimeout(reveal, 100);
-            }, 1500);
+            }, 1200);
         }
 
-        // BGM 켜고 끄는 재생/일시정지 함수
         function toggleBGM() {
             const btn = document.getElementById('music-btn');
             const status = document.getElementById('music-status');
             if (bgm.paused) {
-                bgm.play();
+                bgm.play().catch(err => console.log(err));
                 btn.textContent = '⏸';
                 status.textContent = 'BGM On';
             } else {
@@ -390,7 +412,8 @@
         function scrollToSec(sectionId) {
             const section = document.getElementById(sectionId);
             if(section) {
-                window.scrollTo({ top: section.offsetTop, behavior: 'smooth' });
+                const offset = window.innerWidth < 768 ? 60 : 0; // 모바일 상단 바 높이만큼 조절
+                window.scrollTo({ top: section.offsetTop - offset, behavior: 'smooth' });
             }
         }
 
@@ -399,7 +422,7 @@
             for (var i = 0; i < reveals.length; i++) {
                 var windowHeight = window.innerHeight;
                 var elementTop = reveals[i].getBoundingClientRect().top;
-                var elementVisible = 100;
+                var elementVisible = window.innerWidth < 768 ? 50 : 100;
                 
                 if (elementTop < windowHeight - elementVisible) {
                     reveals[i].classList.add("active");
