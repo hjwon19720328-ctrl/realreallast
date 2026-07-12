@@ -80,9 +80,10 @@
         .story-line.active { opacity: 1; filter: blur(0px); transform: scale(1); }
         .story-line.fade-out { opacity: 0; filter: blur(8px); transform: scale(1.05); }
         
+        /* 스킵 버튼 위치 오른쪽 아래로 수정 */
         .skip-btn { 
             position: absolute; 
-            top: 40px; 
+            bottom: 40px; 
             right: 40px; 
             background: rgba(255, 255, 255, 0.5); 
             border: 1px solid rgba(0,0,0,0.1); 
@@ -195,6 +196,44 @@
         .audio-player.show { opacity: 1; pointer-events: auto; }
         .music-btn { background: none; border: none; cursor: pointer; font-size: 1rem; color: var(--primary-red); outline: none; padding: 2px; }
 
+        /* 하단 희망적인 문구 */
+        .footer-phrase {
+            text-align: center;
+            font-family: 'Nanum Myeongjo', serif;
+            font-size: 1.3rem;
+            color: #666;
+            padding: 20px 20px 100px 20px;
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        /* 맨 위로 올라가는 상단 버튼 */
+        .top-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            color: var(--primary-red);
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 150;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .top-btn.show { opacity: 1; pointer-events: auto; }
+        .top-btn:hover { transform: translateY(-5px); background: white; }
+
         @media (max-width: 768px) {
             .nav-bar { padding: 12px 20px; gap: 15px; background: rgba(255,255,255,0.92); box-shadow: 0 2px 10px rgba(0,0,0,0.03); justify-content: center; }
             .nav-link { font-size: 0.95rem; }
@@ -218,7 +257,12 @@
             .section { padding-top: 80px; }
             .section-title { font-size: 1.6rem; margin-bottom: 35px; }
             
-            .skip-btn { top: 20px; right: 20px; font-size: 0.85rem; padding: 6px 14px; }
+            /* 모바일 스킵 버튼 가려짐 방지용 위치 상향조정 */
+            .skip-btn { bottom: 80px; right: 20px; font-size: 0.85rem; padding: 6px 14px; }
+            
+            /* 모바일 상단 버튼 위치 및 크기 */
+            .top-btn { bottom: 80px; right: 20px; width: 40px; height: 40px; }
+            .footer-phrase { font-size: 1.1rem; padding-bottom: 150px; }
         }
     </style>
 </head>
@@ -232,6 +276,9 @@
         <button class="music-btn" id="music-btn" onclick="toggleBGM()">⏸</button>
         <span id="music-status">BGM On</span>
     </div>
+
+    <!-- 맨 위로 가기 버튼 -->
+    <button class="top-btn" id="top-btn" onclick="scrollToTop()">↑</button>
 
     <div id="intro-screen" class="overlay-screen">
         <button class="start-btn" onclick="startStory()">남매들 알아보기</button>
@@ -312,8 +359,7 @@
             </div>
         </section>
 
-        <!-- 상호작용 지우고 상태 확인 박스 하나만 둔 명령어 섹션 -->
-        <section class="section" id="sec-cmd" style="padding-bottom: 150px;">
+        <section class="section" id="sec-cmd" style="padding-bottom: 50px;">
             <h2 class="section-title reveal">시스템 규약</h2>
             <div class="cmd-container reveal" style="transition-delay: 0.1s;">
                 
@@ -337,6 +383,11 @@
 
             </div>
         </section>
+
+        <!-- 하단 희망 문구 -->
+        <div class="footer-phrase reveal">
+            "우리의 맞잡은 두 손이, 내일은 더 따스하고 밝게 빛날 거야."
+        </div>
 
     </div>
 
@@ -363,7 +414,6 @@
 
         const bgm = document.getElementById('bgm');
 
-        // 모바일 미디어 플레이어에 표시될 제목 설정 (Media Session API)
         function setMediaSession() {
             if ('mediaSession' in navigator) {
                 navigator.mediaSession.metadata = new MediaMetadata({
@@ -379,7 +429,7 @@
             var playPromise = bgm.play();
             if (playPromise !== undefined) {
                 playPromise.then(() => {
-                    setMediaSession(); // 음악이 정상 재생되면 미디어 메타데이터 세팅
+                    setMediaSession();
                 }).catch(error => {
                     console.log("자동 재생 차단", error);
                 });
@@ -446,6 +496,11 @@
             }
         }
 
+        // 맨 위로 스크롤 함수
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
             for (var i = 0; i < reveals.length; i++) {
@@ -456,6 +511,14 @@
                 if (elementTop < windowHeight - elementVisible) {
                     reveals[i].classList.add("active");
                 }
+            }
+
+            // 스크롤 위치에 따라 상단으로 가기 화살표 버튼 표시/숨김
+            const topBtn = document.getElementById('top-btn');
+            if (window.scrollY > 400) {
+                topBtn.classList.add('show');
+            } else {
+                topBtn.classList.remove('show');
             }
         }
         window.addEventListener("scroll", reveal);
