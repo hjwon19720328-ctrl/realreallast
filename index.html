@@ -80,7 +80,6 @@
         .story-line.active { opacity: 1; filter: blur(0px); transform: scale(1); }
         .story-line.fade-out { opacity: 0; filter: blur(8px); transform: scale(1.05); }
         
-        /* 건너뛰기 버튼 위치 및 디자인 수정 (우측 상단) */
         .skip-btn { 
             position: absolute; 
             top: 40px; 
@@ -107,7 +106,6 @@
         }
         .nav-bar.show { opacity: 1; pointer-events: auto; }
         
-        /* 메뉴 버튼 드래그 방지 코드 추가 */
         .nav-link { 
             font-family: 'Nanum Myeongjo', serif; 
             font-weight: 700; 
@@ -154,7 +152,6 @@
         .story-text p { margin-bottom: 20px; }
         .story-text p:last-child { margin-bottom: 0; }
         
-        /* 스토리 내 이름 색상 적용용 클래스 */
         .text-blue { color: var(--primary-blue); font-weight: 800; }
         .text-red { color: var(--primary-red); font-weight: 800; }
 
@@ -181,7 +178,6 @@
         .cmd-container { display: flex; gap: 30px; max-width: 900px; width: 100%; justify-content: center; }
         .cmd-col { flex: 1; background: rgba(255, 255, 255, 0.72); padding: 35px; border-radius: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.04); border: 1px solid rgba(255,255,255,0.9);}
         .cmd-header { font-family: 'Nanum Myeongjo', serif; font-size: 1.6rem; color: #222; font-weight: 800; margin-bottom: 20px; border-bottom: 2px solid rgba(0,0,0,0.08); padding-bottom: 12px; }
-        .cmd-header.mt-30 { margin-top: 30px; }
         .cmd-list { list-style: none; }
         .cmd-item { padding: 18px 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
         .cmd-item:last-child { border-bottom: none; padding-bottom: 0; }
@@ -286,7 +282,8 @@
                         <div class="char-tags">
                             <span>7세 (초등 1학년)</span>
                             <span>INTJ</span>
-                            <span>든든한 보호자</span>
+                            <span>에니어그램 5w6</span>
+                            <span>질서 선</span>
                         </div>
                         <div class="char-desc">
                             앞이 보이지 않는 신체적 특징을 지녔지만, 타고난 압도적 지능과 언어 능력으로 동생을 의젓하게 이끄는 7살 누나입니다. 아동급식카드로 송의 식단을 야무지게 설계하며, 상냥하고 포근한 미소 속에 동생을 세상 그 누구보다 소중하게 지켜주겠다는 다정한 결의를 품고 있습니다.
@@ -303,7 +300,8 @@
                         <div class="char-tags">
                             <span>7세 (초등 1학년)</span>
                             <span>ISFP</span>
-                            <span>든든한 동반자</span>
+                            <span>에니어그램 9w1</span>
+                            <span>중립 선</span>
                         </div>
                         <div class="char-desc">
                             선천성 난청으로 온전한 고요 속에서 살아가지만, 누나의 온기와 심장 박동을 통해 세상의 아름다움을 누구보다 섬세하게 느끼는 7살 쌍둥이 동생입니다. 매일 약수터 물통을 먼저 씩씩하게 들 정도로 누나를 지키려는 마음이 강하며, 시안을 깊이 존경하고 따릅니다.
@@ -314,6 +312,7 @@
             </div>
         </section>
 
+        <!-- 상호작용 지우고 상태 확인 박스 하나만 둔 명령어 섹션 -->
         <section class="section" id="sec-cmd" style="padding-bottom: 150px;">
             <h2 class="section-title reveal">시스템 규약</h2>
             <div class="cmd-container reveal" style="transition-delay: 0.1s;">
@@ -332,22 +331,6 @@
                         <li class="cmd-item">
                             <span class="cmd-code">/소지품</span>
                             <div class="cmd-desc">소중한 아동급식카드, 약수터 물통, 방안을 밝혀줄 예쁜 촛불들을 확인합니다.</div>
-                        </li>
-                    </ul>
-
-                    <h3 class="cmd-header mt-30">상호 작용</h3>
-                    <ul class="cmd-list">
-                        <li class="cmd-item">
-                            <span class="cmd-code">/스킨십 [대상]</span>
-                            <div class="cmd-desc">손끝 짚기와 포옹으로 따스한 온기와 대화를 주고받습니다.</div>
-                        </li>
-                        <li class="cmd-item">
-                            <span class="cmd-code">/외출</span>
-                            <div class="cmd-desc">물길으러 약수터로 모험을 떠나거나 맛있는 음식을 구하러 함께 걸어 나갑니다.</div>
-                        </li>
-                        <li class="cmd-item">
-                            <span class="cmd-code">/회상</span>
-                            <div class="cmd-desc">서로와 함께했던 가장 포근하고 반짝였던 기억의 조각을 공유합니다.</div>
                         </li>
                     </ul>
                 </div>
@@ -380,11 +363,24 @@
 
         const bgm = document.getElementById('bgm');
 
+        // 모바일 미디어 플레이어에 표시될 제목 설정 (Media Session API)
+        function setMediaSession() {
+            if ('mediaSession' in navigator) {
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: '내가 꼭 지켜줄게',
+                    artist: '시안 & 송',
+                    album: '테마곡'
+                });
+            }
+        }
+
         function startStory() {
             bgm.volume = 0.4;
             var playPromise = bgm.play();
             if (playPromise !== undefined) {
-                playPromise.catch(error => {
+                playPromise.then(() => {
+                    setMediaSession(); // 음악이 정상 재생되면 미디어 메타데이터 세팅
+                }).catch(error => {
                     console.log("자동 재생 차단", error);
                 });
             }
@@ -410,7 +406,7 @@
         function skipStory() { 
             isSkipped = true; 
             storyTimers.forEach(timer => clearTimeout(timer)); 
-            bgm.play().catch(error => console.log(error));
+            bgm.play().then(() => setMediaSession()).catch(error => console.log(error));
             transitionToMain(); 
         }
 
@@ -432,7 +428,7 @@
             const btn = document.getElementById('music-btn');
             const status = document.getElementById('music-status');
             if (bgm.paused) {
-                bgm.play().catch(err => console.log(err));
+                bgm.play().then(() => setMediaSession()).catch(err => console.log(err));
                 btn.textContent = '⏸';
                 status.textContent = 'BGM On';
             } else {
