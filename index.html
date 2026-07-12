@@ -98,7 +98,6 @@
         }
         .skip-btn:hover { background: rgba(255, 255, 255, 0.9); color: #222; }
         
-        /* 네비게이션 바 디자인 및 BGM 위치 통합 수정 */
         .nav-bar {
             position: fixed; top: 0; left: 0; width: 100%; padding: 15px 30px;
             display: flex; justify-content: space-between; align-items: center; z-index: 90;
@@ -126,7 +125,6 @@
         }
         .nav-link:hover { color: var(--primary-red); }
 
-        /* 오디오 플레이어가 네비게이션 우측에 정렬되도록 스타일 수정 */
         .audio-player {
             background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.9); padding: 6px 16px; border-radius: 30px;
@@ -155,7 +153,6 @@
         .subtitle-group span.sister { color: var(--primary-blue); }
         .subtitle-group span.brother { color: var(--primary-red); }
         
-        /* 스크롤 다운 문구 위치 상향 (가려짐 방지) */
         .scroll-down { position: absolute; bottom: 80px; font-size: 0.85rem; font-weight: 700; color: #888; letter-spacing: 2px; animation: floatTitle 2s infinite alternate; }
 
         .story-book {
@@ -285,7 +282,6 @@
         <button class="skip-btn" onclick="skipStory()">건너뛰기</button>
     </div>
 
-    <!-- 메뉴탭 좌측, BGM 버튼 우측 상단 정렬 -->
     <nav class="nav-bar" id="nav-bar">
         <div class="nav-links">
             <a onclick="scrollToSec('sec-past')" class="nav-link">과거</a>
@@ -331,8 +327,9 @@
                         <div class="char-name">시안</div>
                         <div class="char-tags">
                             <span>7세 (초등 1학년)</span>
-                            <span>INTJ</span>
-                            <span>에니어그램 5w6</span>
+                            <span>여성</span>
+                            <span>ISFJ</span>
+                            <span>에니어그램 2w1</span>
                             <span>질서 선</span>
                         </div>
                         <div class="char-desc">
@@ -349,8 +346,9 @@
                         <div class="char-name">송</div>
                         <div class="char-tags">
                             <span>7세 (초등 1학년)</span>
-                            <span>ISFP</span>
-                            <span>에니어그램 9w1</span>
+                            <span>남성</span>
+                            <span>ENTP</span>
+                            <span>에니어그램 7w6</span>
                             <span>중립 선</span>
                         </div>
                         <div class="char-desc">
@@ -507,7 +505,6 @@
                 var windowHeight = window.innerHeight;
                 var elementTop = reveals[i].getBoundingClientRect().top;
                 
-                // 빈 화면 딜레이 버그 수정: 트리거 지점을 낮추어 화면 진입 직전에 미리 나타나도록 변경 (-50px)
                 var elementVisible = -50; 
                 
                 if (elementTop < windowHeight - elementVisible) {
